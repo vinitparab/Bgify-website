@@ -1,23 +1,33 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    fullname: {
-        type: String,
-        minLength: 3,
-        trim: true,
-
+  fullname: {
+    type: String,
+    minLength: 3,
+    trim: true,
+  },
+  email: String,
+  password: String,
+  // In your user model file
+cart: [
+  {
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "product"
     },
-    email: String,
-    password: String,
-    cart: {
-        type:Array,
-        default: [],
-    },
-    orders: {
-        type:Array,
-        default: [],
-    },
-    contact: Number,
-    picture: String,
+    quantity: {
+      type: Number,
+      default: 1,
+      min: 1
+    }
+  }
+],
+  
+  orders: {
+    type: Array,
+    default: [],
+  },
+  contact: Number,
+  picture: String,
 });
-module.exports = mongoose.model("user",userSchema);
+module.exports = mongoose.model("user", userSchema);
