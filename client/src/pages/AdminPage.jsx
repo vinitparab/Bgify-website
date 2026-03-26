@@ -33,6 +33,12 @@ export default function AdminPage() {
   const updateStock = async (productId) => {
     try {
       await api.post(`/products/${productId}/stock`, { stock: stockValues[productId] });
+      // Update local state so UI reflects new stock immediately
+      setProducts((prev) =>
+        prev.map((p) =>
+          p._id === productId ? { ...p, stock: stockValues[productId] } : p
+        )
+      );
       toast.success('Stock updated');
     } catch {
       toast.error('Failed to update stock');
