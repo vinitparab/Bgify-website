@@ -97,7 +97,7 @@ export default function AdminOrdersPage() {
           
           {/* Filters */}
           <div className="flex gap-2 text-sm">
-            {['All', 'Pending', 'Confirmed', 'Shipped', 'Delivered'].map(status => (
+            {['All', 'Confirmed', 'Shipped', 'Delivered'].map(status => (
               <button 
                 key={status}
                 onClick={() => setFilter(status)}
@@ -141,16 +141,14 @@ export default function AdminOrdersPage() {
                   <div className="flex items-center gap-2 border-l pl-4">
                     <span className="text-sm font-semibold text-gray-700">Status:</span>
                     <select
-                      value={order.status || 'pending'}
+                      value={order.status || 'confirmed'}
                       onChange={(e) => handleStatusChange(order.orderId, order.userId, e.target.value)}
                       className={`text-sm font-semibold rounded-md border-0 py-1.5 px-3 focus:ring-2 focus:ring-blue-500 cursor-pointer ${
                         order.status === 'delivered' ? 'bg-green-100 text-green-800' :
                         order.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
-                        order.status === 'confirmed' ? 'bg-blue-100 text-blue-800' :
-                        'bg-yellow-100 text-yellow-800'
+                        'bg-blue-100 text-blue-800'
                       }`}
                     >
-                      <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="shipped">Shipped</option>
                       <option value="delivered">Delivered</option>
