@@ -18,7 +18,7 @@ export default function CheckoutPage() {
     city: '',
     state: '',
     pincode: '',
-    paymentMethod: 'cod',
+    paymentMethod: 'online',
   });
 
   useEffect(() => {
@@ -75,17 +75,8 @@ export default function CheckoutPage() {
     setPlacing(true);
 
     try {
-      if (form.paymentMethod === 'cod') {
-        // Existing COD flow
-        const res = await api.post('/orders/checkout', form);
-        if (res.data.success) {
-          navigate(`/order-success/${res.data.orderId}`);
-        } else {
-          toast.error(res.data.message || 'Failed to place order');
-        }
-      } else {
-        // Online Payment via Razorpay
-        const loaded = await loadRazorpayScript();
+      // Online Payment via Razorpay
+      const loaded = await loadRazorpayScript();
         if (!loaded) {
           toast.error('Failed to load payment gateway. Check your internet connection.');
           setPlacing(false);
@@ -150,7 +141,6 @@ export default function CheckoutPage() {
         rzp.open();
         // Note: setPlacing(false) is not called here because it runs after payment popup interaction
         return;
-      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to place order');
     } finally {
@@ -234,25 +224,6 @@ export default function CheckoutPage() {
                     Payment Method
                   </h3>
                   <div className="space-y-3">
-                    {/* COD Option */}
-                    <label className={`flex items-center p-5 border-2 rounded-lg cursor-pointer transition-colors shadow-sm ${
-                      form.paymentMethod === 'cod'
-                        ? 'border-green-400 bg-green-50'
-                        : 'border-gray-200 bg-white hover:border-gray-300'
-                    }`}>
-                      <input type="radio" name="paymentMethod" value="cod" checked={form.paymentMethod === 'cod'} onChange={handleChange} className="mr-3 w-5 h-5 text-green-600" />
-                      <div className="flex-1">
-                        <div className="font-bold text-gray-800 text-lg mb-1">Cash on Delivery (COD)</div>
-                        <div className="text-sm text-gray-600">Pay when you receive your order</div>
-                        <div className="mt-2 flex items-center gap-2">
-                          <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full font-medium">
-                            <RiSecurePaymentLine className="inline mr-1" />Secure &amp; Easy
-                          </span>
-                        </div>
-                      </div>
-                      <RiMoneyRupeeCircleLine className="text-3xl text-green-600" />
-                    </label>
-
                     {/* Online Payment Option */}
                     <label className={`flex items-center p-5 border-2 rounded-lg cursor-pointer transition-colors shadow-sm ${
                       form.paymentMethod === 'online'
