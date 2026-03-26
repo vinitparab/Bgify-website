@@ -69,6 +69,7 @@ export default function AdminPage() {
       <div className="w-[25%] flex flex-col items-start">
         <div className="flex flex-col">
           <Link to="/owners/admin" className="block w-fit mb-2 text-gray-700 no-underline hover:text-blue-600">All Products</Link>
+          <Link to="/owners/orders" className="block w-fit mb-2 text-gray-700 no-underline hover:text-blue-600">Orders</Link>
           <Link to="/owners/createproducts" className="block w-fit mb-2 text-gray-700 no-underline hover:text-blue-600">Create new product</Link>
           <button onClick={handleLogout} className="text-red-500 hover:text-red-700 font-medium mt-4 bg-transparent border-none cursor-pointer text-left">
             <RiLogoutBoxLine className="inline mr-1" />Logout

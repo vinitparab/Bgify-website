@@ -13,6 +13,7 @@ import OrderSuccessPage from './pages/OrderSuccessPage';
 import OrdersPage from './pages/OrdersPage';
 import OwnerLoginPage from './pages/OwnerLoginPage';
 import AdminPage from './pages/AdminPage';
+import AdminOrdersPage from './pages/AdminOrdersPage';
 import CreateProductPage from './pages/CreateProductPage';
 
 function AppContent() {
@@ -62,6 +63,7 @@ function AppContent() {
 
         {/* Admin routes */}
         <Route path="/owners/admin" element={<AdminPage />} />
+        <Route path="/owners/orders" element={<AdminOrdersPage />} />
         <Route path="/owners/createproducts" element={<CreateProductPage />} />
       </Routes>
     </>
