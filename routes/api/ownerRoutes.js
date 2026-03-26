@@ -53,28 +53,12 @@ router.post("/logout", (req, res) => {
 router.get("/admin", apiOwner, async (req, res) => {
   try {
     const products = await productModel.find().select("-image");
-    const owner = req.owner;
-    const notifications = owner && owner.notifications ? owner.notifications.filter(n => !n.read) : [];
-    const unreadCount = notifications.length;
-
-    res.json({ products, notifications, unreadCount });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// POST /api/owner/mark-read - Mark notifications as read
-router.post("/mark-read", apiOwner, async (req, res) => {
-  try {
-    const owner = req.owner;
-    if (owner && owner.notifications) {
-      owner.notifications.forEach(n => { n.read = true; });
-      await owner.save();
-    }
-    res.json({ success: true });
+    res.json({ products });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
 
 module.exports = router;
+
+

@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { RiNotification3Line, RiShoppingCartLine, RiStackLine, RiSaveLine, RiLogoutBoxLine } from 'react-icons/ri';
+import { RiStackLine, RiSaveLine, RiLogoutBoxLine } from 'react-icons/ri';
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [stockValues, setStockValues] = useState({});
 
@@ -20,8 +18,6 @@ export default function AdminPage() {
     try {
       const res = await api.get('/owner/admin');
       setProducts(res.data.products || []);
-      setNotifications(res.data.notifications || []);
-      setUnreadCount(res.data.unreadCount || 0);
       // Init stock values
       const stocks = {};
       (res.data.products || []).forEach((p) => { stocks[p._id] = p.stock ?? 0; });
@@ -76,49 +72,6 @@ export default function AdminPage() {
 
       {/* Main Content */}
       <div className="w-[75%] flex flex-col gap-5">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-red-500 cursor-pointer">Delete all</span>
-          {unreadCount > 0 && (
-            <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-              <div className="relative">
-                <RiNotification3Line className="text-2xl text-blue-600" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{unreadCount}</span>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-800">{unreadCount} New Order{unreadCount > 1 ? 's' : ''}</p>
-                <p className="text-xs text-gray-600">Check notifications below</p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Notifications */}
-        {notifications.length > 0 && (
-          <div className="bg-white rounded-lg shadow-md p-4 mb-6 border-l-4 border-blue-500">
-            <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <RiShoppingCartLine className="text-blue-600" /> Recent Orders
-            </h3>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
-              {notifications.slice(0, 5).map((n, idx) => (
-                <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-3 hover:bg-blue-100 transition-colors">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-gray-800">
-                        <RiShoppingCartLine className="inline text-blue-600 mr-1" /> Order #{n.orderId}
-                      </p>
-                      <p className="text-xs text-gray-600 mt-1">Customer: <span className="font-medium">{n.customerName}</span></p>
-                      <p className="text-xs text-gray-600">Email: <span className="font-medium">{n.customerEmail}</span></p>
-                      <p className="text-xs text-gray-600 mt-1">Total: <span className="font-bold text-green-600">₹{n.orderTotal?.toLocaleString('en-IN')}</span></p>
-                      <p className="text-xs text-gray-500 mt-1">{new Date(n.orderDate).toLocaleString('en-IN')}</p>
-                    </div>
-                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">New</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Products Grid */}
         <div className="grid grid-cols-4 gap-5">
           {products.length > 0 ? (

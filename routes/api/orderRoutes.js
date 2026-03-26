@@ -4,7 +4,6 @@ const crypto = require("crypto");
 const Razorpay = require("razorpay");
 const userModel = require("../../models/user-model");
 const productModel = require("../../models/product-model");
-const ownerModel = require("../../models/owner-model");
 const apiAuth = require("../../middlewares/apiAuth");
 
 
@@ -107,26 +106,6 @@ router.post("/checkout", apiAuth, async (req, res) => {
     user.orders.push(order);
     user.cart = [];
     await user.save();
-
-    // Notify owners
-    const owners = await ownerModel.find();
-    const notification = {
-      type: 'new_order',
-      message: `New order #${orderId} placed by ${fullname} (${email})`,
-      orderId,
-      orderTotal,
-      customerName: fullname,
-      customerEmail: email,
-      orderDate: new Date(),
-      read: false,
-    };
-
-    for (let owner of owners) {
-      if (!owner.notifications) owner.notifications = [];
-      owner.notifications.unshift(notification);
-      if (owner.notifications.length > 50) owner.notifications = owner.notifications.slice(0, 50);
-      await owner.save();
-    }
 
     res.json({ success: true, orderId });
   } catch (err) {
@@ -280,26 +259,6 @@ router.post("/verify-payment", apiAuth, async (req, res) => {
     user.orders.push(order);
     user.cart = [];
     await user.save();
-
-    // Notify owners
-    const owners = await ownerModel.find();
-    const notification = {
-      type: "new_order",
-      message: `New order #${orderId} placed by ${fullname} (${email}) via Online Payment`,
-      orderId,
-      orderTotal,
-      customerName: fullname,
-      customerEmail: email,
-      orderDate: new Date(),
-      read: false,
-    };
-
-    for (let owner of owners) {
-      if (!owner.notifications) owner.notifications = [];
-      owner.notifications.unshift(notification);
-      if (owner.notifications.length > 50) owner.notifications = owner.notifications.slice(0, 50);
-      await owner.save();
-    }
 
     res.json({ success: true, orderId });
   } catch (err) {

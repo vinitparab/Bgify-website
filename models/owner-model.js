@@ -18,10 +18,6 @@ const ownerSchema = mongoose.Schema({
         type:Array,
         default: [],
     },
-    notifications: {
-        type: Array,
-        default: [],
-    },
     gstin: String,
     picture: String,
 });
