@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Base styles to match the original EJS site */
+body {
+  font-family: 'Helvetica Now Display', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
