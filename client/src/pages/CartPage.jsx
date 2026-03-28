@@ -151,11 +151,7 @@ export default function CartPage() {
                           +
                         </button>
                       </div>
-                      <p className="text-xs text-gray-500">
-                        Stock: <span className={`font-semibold ${(item.product.stock ?? 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {item.product.stock ?? 0}
-                        </span> available
-                      </p>
+                      {/* Stock availability hidden per user request */}
                     </div>
 
                     {/* Subtotal */}

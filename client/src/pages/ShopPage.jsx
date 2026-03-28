@@ -261,24 +261,21 @@ export default function ShopPage() {
                     <h4 className="font-semibold">₹ {product.price}</h4>
                   )}
 
-                  {/* Add to Cart Button */}
-                  {(product.stock ?? 0) > 0 ? (
-                    <button
-                      onClick={() => addToCart(product._id)}
-                      disabled={addingToCart[product._id]}
-                      className="mt-3 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border-none"
-                    >
-                      <RiShoppingCartLine />
-                      <span>{addingToCart[product._id] ? 'Added!' : 'Add to Cart'}</span>
-                    </button>
-                  ) : (
-                    <button
-                      disabled
-                      className="mt-3 inline-flex items-center justify-center gap-2 bg-gray-400 text-white py-2 px-4 rounded-md text-sm font-medium shadow-md cursor-not-allowed border-none"
-                    >
-                      <RiCloseCircleLine /> Out of Stock
-                    </button>
-                  )}
+                  {/* Add to Cart / Out of Stock Button */}
+                  <button
+                    onClick={() => addToCart(product._id)}
+                    disabled={addingToCart[product._id] || (product.stock ?? 0) <= 0}
+                    className="mt-3 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border-none"
+                  >
+                    <RiShoppingCartLine />
+                    <span>
+                      {(product.stock ?? 0) <= 0
+                        ? 'Out of Stock'
+                        : addingToCart[product._id] 
+                          ? 'Added!' 
+                          : 'Add to Cart'}
+                    </span>
+                  </button>
                 </div>
               </div>
             ))}
