@@ -238,6 +238,11 @@ export default function ShopPage() {
                       {product.discount}% OFF
                     </span>
                   )}
+                  {(product.stock ?? 0) <= 0 && (
+                    <span className="absolute top-3 right-3 bg-gray-800 text-white text-xs px-2 py-1 rounded-md shadow font-semibold">
+                      Out of Stock
+                    </span>
+                  )}
                 </div>
 
                 {/* Product Info */}
@@ -261,20 +266,20 @@ export default function ShopPage() {
                     <h4 className="font-semibold">₹ {product.price}</h4>
                   )}
 
-                  {/* Add to Cart / Out of Stock Button */}
+                  {/* Add to Cart Button */}
                   <button
-                    onClick={() => addToCart(product._id)}
-                    disabled={addingToCart[product._id] || (product.stock ?? 0) <= 0}
+                    onClick={() => {
+                      if ((product.stock ?? 0) <= 0) {
+                        toast.error("Product is out of stock");
+                      } else {
+                        addToCart(product._id);
+                      }
+                    }}
+                    disabled={addingToCart[product._id]}
                     className="mt-3 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border-none"
                   >
                     <RiShoppingCartLine />
-                    <span>
-                      {(product.stock ?? 0) <= 0
-                        ? 'Out of Stock'
-                        : addingToCart[product._id] 
-                          ? 'Added!' 
-                          : 'Add to Cart'}
-                    </span>
+                    <span>{addingToCart[product._id] ? 'Added!' : 'Add to Cart'}</span>
                   </button>
                 </div>
               </div>
