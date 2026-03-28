@@ -2,12 +2,19 @@ const mongoose = require("mongoose");
 const dbgr = require("debug")("development:mongoose");
 
 // Use env var directly (for production/Render) or fall back to config (for local dev)
-let mongoURI;
-if (process.env.MONGODB_URI) {
-  mongoURI = process.env.MONGODB_URI;
-} else {
+let mongoURI = process.env.MONGODB_URI;
+if (!mongoURI) {
   const config = require("config");
-  mongoURI = `${config.get("MONGODB_URI")}/ecommerce`;
+  mongoURI = config.get("MONGODB_URI");
+}
+
+// Ensure the connection specifically targets the ecommerce database
+if (!mongoURI.includes("/ecommerce")) {
+  if (mongoURI.includes("?")) {
+    mongoURI = mongoURI.replace("?", "/ecommerce?");
+  } else {
+    mongoURI = `${mongoURI.replace(/\/$/, '')}/ecommerce`;
+  }
 }
 
 mongoose
