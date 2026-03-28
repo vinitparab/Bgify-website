@@ -43,7 +43,7 @@ router.post("/add/:productid", apiAuth, async (req, res) => {
 
     if (existingItem) {
       if (existingItem.quantity >= productStock) {
-        return res.status(400).json({ success: false, message: `Only ${productStock} items available in stock` });
+        return res.status(400).json({ success: false, message: "Out of Stock" });
       }
       existingItem.quantity += 1;
     } else {
@@ -82,7 +82,7 @@ router.post("/increase/:productid", apiAuth, async (req, res) => {
 
     if (item) {
       if (item.quantity >= productStock) {
-        return res.status(400).json({ success: false, message: `Only ${productStock} items available` });
+        return res.status(400).json({ success: false, message: "Out of Stock" });
       }
       item.quantity += 1;
       await user.save();
