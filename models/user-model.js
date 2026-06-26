@@ -27,12 +27,17 @@ cart: [
     type: Array,
     default: [],
   },
-  savedAddress: {
-    address: String,
-    city: String,
-    state: String,
-    pincode: String,
-  },
+  addresses: [
+    {
+      fullname: String,
+      contact: String,
+      address: String,
+      city: String,
+      state: String,
+      pincode: String,
+      isDefault: { type: Boolean, default: false },
+    }
+  ],
   contact: Number,
   picture: String,
 });

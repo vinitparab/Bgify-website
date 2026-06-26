@@ -105,7 +105,15 @@ router.post("/checkout", apiAuth, async (req, res) => {
 
     user.orders.push(order);
     user.cart = [];
-    user.savedAddress = { address, city, state, pincode };
+
+    // Auto-save address if not already saved (no duplicates)
+    const isDuplicate = (user.addresses || []).some(
+      (a) => a.fullname === fullname && a.contact === contact && a.address === address && a.city === city && a.state === state && a.pincode === pincode
+    );
+    if (!isDuplicate) {
+      const isFirst = !user.addresses || user.addresses.length === 0;
+      user.addresses.push({ fullname, contact, address, city, state, pincode, isDefault: isFirst });
+    }
     user.contact = contact;
     await user.save();
 
@@ -262,7 +270,15 @@ router.post("/verify-payment", apiAuth, async (req, res) => {
 
     user.orders.push(order);
     user.cart = [];
-    user.savedAddress = { address, city, state, pincode };
+
+    // Auto-save address if not already saved (no duplicates)
+    const isDuplicate = (user.addresses || []).some(
+      (a) => a.fullname === fullname && a.contact === contact && a.address === address && a.city === city && a.state === state && a.pincode === pincode
+    );
+    if (!isDuplicate) {
+      const isFirst = !user.addresses || user.addresses.length === 0;
+      user.addresses.push({ fullname, contact, address, city, state, pincode, isDefault: isFirst });
+    }
     user.contact = contact;
     await user.save();
 

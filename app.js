@@ -13,6 +13,7 @@ const apiImageRoutes = require("./routes/api/imageRoutes");
 const apiCartRoutes = require("./routes/api/cartRoutes");
 const apiOrderRoutes = require("./routes/api/orderRoutes");
 const apiOwnerRoutes = require("./routes/api/ownerRoutes");
+const apiAddressRoutes = require("./routes/api/addressRoutes");
 
 
 const database = require("./config/mongoose-connection");
@@ -29,6 +30,7 @@ app.use("/api/images", apiImageRoutes);
 app.use("/api/cart", apiCartRoutes);
 app.use("/api/orders", apiOrderRoutes);
 app.use("/api/owner", apiOwnerRoutes);
+app.use("/api/addresses", apiAddressRoutes);
 
 // Serve React frontend in production
 app.use(express.static(path.join(__dirname, "client/dist")));

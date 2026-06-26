@@ -19,7 +19,7 @@ router.get("/", apiAuth, async (req, res) => {
     });
     res.json({
       cart,
-      user: { fullname: user.fullname, email: user.email, contact: user.contact, savedAddress: user.savedAddress }
+      user: { fullname: user.fullname, email: user.email, contact: user.contact, addresses: user.addresses || [] }
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
