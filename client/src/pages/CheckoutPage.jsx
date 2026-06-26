@@ -87,6 +87,7 @@ export default function CheckoutPage() {
         const orderRes = await api.post('/orders/create-razorpay-order');
         if (!orderRes.data.success) {
           toast.error(orderRes.data.message || 'Failed to initiate payment');
+          console.error('Razorpay order error:', orderRes.data);
           setPlacing(false);
           return;
         }
@@ -142,6 +143,7 @@ export default function CheckoutPage() {
         // Note: setPlacing(false) is not called here because it runs after payment popup interaction
         return;
     } catch (err) {
+      console.error('Checkout error:', err.response?.data || err);
       toast.error(err.response?.data?.message || 'Failed to place order');
     } finally {
       setPlacing(false);
