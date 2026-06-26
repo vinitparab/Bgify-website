@@ -34,13 +34,19 @@ export default function CheckoutPage() {
         return;
       }
       setCart(res.data.cart.filter((item) => item.product));
-      // Pre-fill user info
+      // Pre-fill user info and saved address
       if (res.data.user) {
         setForm((prev) => ({
           ...prev,
           fullname: res.data.user.fullname || '',
           email: res.data.user.email || '',
           contact: res.data.user.contact || '',
+          ...(res.data.user.savedAddress && {
+            address: res.data.user.savedAddress.address || '',
+            city: res.data.user.savedAddress.city || '',
+            state: res.data.user.savedAddress.state || '',
+            pincode: res.data.user.savedAddress.pincode || '',
+          }),
         }));
       }
     } catch {

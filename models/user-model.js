@@ -27,6 +27,12 @@ cart: [
     type: Array,
     default: [],
   },
+  savedAddress: {
+    address: String,
+    city: String,
+    state: String,
+    pincode: String,
+  },
   contact: Number,
   picture: String,
 });

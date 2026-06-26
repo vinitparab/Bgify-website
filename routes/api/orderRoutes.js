@@ -105,6 +105,8 @@ router.post("/checkout", apiAuth, async (req, res) => {
 
     user.orders.push(order);
     user.cart = [];
+    user.savedAddress = { address, city, state, pincode };
+    user.contact = contact;
     await user.save();
 
     res.json({ success: true, orderId });
@@ -260,6 +262,8 @@ router.post("/verify-payment", apiAuth, async (req, res) => {
 
     user.orders.push(order);
     user.cart = [];
+    user.savedAddress = { address, city, state, pincode };
+    user.contact = contact;
     await user.save();
 
     res.json({ success: true, orderId });
